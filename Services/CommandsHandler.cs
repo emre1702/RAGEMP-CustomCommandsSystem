@@ -76,16 +76,15 @@ namespace CustomCommandSystem.Services
                 {
                     if (methodCandidates.Any())
                     {
-                        string usageText = $"USAGE: /{command}";
                         foreach (var method in methodCandidates)
                         {
+                            string usageText = $"USAGE: /{command}";
                             foreach (var param in method.UserParameters)
                             {
                                 usageText += $" [{param.Name}]";
                             }
+                            NAPI.Task.Run(() => player.SendChatMessage(usageText));
                         }
-
-                        NAPI.Task.Run(() => player.SendChatMessage(usageText));
                     }
                     else if (_configuration.CommandDoesNotExistError is { } text)
                     {
