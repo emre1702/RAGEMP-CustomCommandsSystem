@@ -66,20 +66,39 @@ namespace CustomCommandSystem.Services
 
         private bool TryGetPossibleMethods(Player player, string command, string[] usedParameters, [NotNullWhen(true)] out List<CommandMethodData>? possibleMethods)
         {
-            possibleMethods = _methodParser.GetPossibleMethods(command, usedParameters)?.ToList();
-            if (possibleMethods is null)
+            var methodCandidates = _methodParser.GetPossibleMethods(command);
+
+            if (methodCandidates != null)
             {
-                if (_configuration.CommandDoesNotExistError is { } text)
-                    NAPI.Task.Run(() => player.SendChatMessage(text));
-                return false;
+                possibleMethods = _methodParser.FilterByArgsAmount(methodCandidates, usedParameters.Length).ToList();
+
+                if (!possibleMethods.Any())
+                {
+                    if (methodCandidates.Any())
+                    {
+                        string usageText = $"USAGE: /{command}";
+                        foreach (var method in methodCandidates)
+                        {
+                            foreach (var param in method.UserParameters)
+                            {
+                                usageText += $" [{param.Name}]";
+                            }
+                        }
+
+                        NAPI.Task.Run(() => player.SendChatMessage(usageText));
+                    }
+                    else if (_configuration.CommandDoesNotExistError is { } text)
+                    {
+                        NAPI.Task.Run(() => player.SendChatMessage(text));
+                    }
+                    return false;
+                }
+
+                return true;
             }
-            if (possibleMethods is null)
-            {
-                if (_configuration.CommandWithTheseArgsDoesNotExistError is { } text) 
-                    NAPI.Task.Run(() => player.SendChatMessage(text));
-                return false;
-            }
-            return true;
+
+            possibleMethods = null;
+            return false;
         }
     }
 }

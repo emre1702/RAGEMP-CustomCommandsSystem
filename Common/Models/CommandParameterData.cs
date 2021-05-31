@@ -10,6 +10,8 @@ namespace CustomCommandSystem.Common.Models
         public bool IsNullable { get; internal set; }
 #nullable disable
         public Type Type { get; internal set; }
+        public string Name { get; set; }
 #nullable enable
+        
     }
 }

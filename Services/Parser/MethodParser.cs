@@ -12,16 +12,12 @@ namespace CustomCommandSystem.Services.Parser
         public MethodParser(ICommandsLoader methodsLoader)
             => _methodsLoader = methodsLoader;
 
-        public IEnumerable<CommandMethodData>? GetPossibleMethods(string cmd, string[] userArgs)
+        public IEnumerable<CommandMethodData>? GetPossibleMethods(string cmd)
         {
-            var commandData = _methodsLoader.GetCommandData(cmd);
-            if (commandData is null) return null;
-
-            var methods = FilterByArgsAmount(commandData.Methods, userArgs.Length);
-            return methods;
+            return _methodsLoader.GetCommandData(cmd)?.Methods;
         }
 
-        private IEnumerable<CommandMethodData> FilterByArgsAmount(IEnumerable<CommandMethodData> methods, int argsAmount)
+        public IEnumerable<CommandMethodData> FilterByArgsAmount(IEnumerable<CommandMethodData> methods, int argsAmount)
             => methods.Where(m => m.ExactUserArgsAmount.HasValue
                 ? m.ExactUserArgsAmount.Value == argsAmount
                 : m.MinUserArgsAmount <= argsAmount && m.MaxUserArgsAmount >= argsAmount);

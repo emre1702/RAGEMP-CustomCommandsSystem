@@ -100,7 +100,8 @@ namespace CustomCommandSystem.Services.Loader
                     DefaultValue = parameter.DefaultValue,
                     IsRemainingText = IsRemainingText(parameter),
                     IsNullable = IsNullable(parameter),
-                    Type = parameter.ParameterType
+                    Type = parameter.ParameterType,
+                    Name = parameter.Name
                 };
                 yield return parameterData;
             }

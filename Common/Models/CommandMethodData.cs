@@ -46,7 +46,7 @@ namespace CustomCommandSystem.Common.Models
 
         private int GetAmountUserArgsNeeded(CommandParameterData parameterData)
         {
-            if (parameterData.DefaultValue is { }) return 0;
+            // if (parameterData.DefaultValue is { }) return 0;
             if (parameterData.IsRemainingText) return 1;
 
             return parameterData.UserInputLength;
