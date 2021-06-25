@@ -1,3 +1,8 @@
+<h1 align="center">
+  Moved to <a href="https://github.com/emre1702/altv-CustomCommandsSystem/">altV-CustomCommandsSystem</a>! <br> 
+  This library has not been accepted by RAGE:MP team for months and therefore I will no longer work on their mod.<br>
+</h1>
+
 <p align="center">
   <h2 align="center">RAGE:MP Custom Commands System</h2>
   <p align="center">A custom commands system for RAGE:MP, written in C#.</p>
